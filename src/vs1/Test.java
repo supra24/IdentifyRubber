@@ -15,7 +15,7 @@ public class Test {
     BufferedImage image = null;
     BufferedImage imageEnd = null;
     ArrayList<IntegerPoint> p ;
-    Color colorBlack = new Color(0, 0, 0);
+    Color colorBlack = new Color(40, 40, 40);
 
 
     public Test(BufferedImage image){
