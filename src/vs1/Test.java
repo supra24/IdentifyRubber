@@ -1,8 +1,6 @@
 package vs1;
 
 import java.awt.Color;
-import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,12 +24,9 @@ public class Test {
         int width = image.getWidth();
         int height = image.getHeight();
 
-//		System.out.println(width+" "+height);
-
         for (int y=0; y<height; y++){
             for (int x = 0; x<width; x++){
                 if (getColor(x, y)>=200){
-//					System.out.println(" pierwsze wywołanie "+x+" "+y);
                     Arrangement(x, y);
 
                 }
@@ -39,7 +34,7 @@ public class Test {
         }
 
         try{
-            File f = new File("D:/JAVA/output3.jpg");
+            File f = new File("F:/JAVA/workIntelli/IdentifyRubber/Z_image_output/output3.jpg");
             ImageIO.write(image, "jpg", f);
             System.out.println("Writing complete.");
         }catch(IOException e){
@@ -58,30 +53,22 @@ public class Test {
         for (i=0; czyMaDalejSprawdzac<2 ;i++){
             pomoc = 0;
             p = new ArrayList<>();
-//			System.out.println("poziom nr. "+i);
             for (j=0; pomoc<2 ;j++){
                 if ((getColor(x+j, y+i)>200) && (pomoc==0)){
                     p.add(new IntegerPoint(x+j, y+i));
                     pixel++;
-//					System.out.println("dodanie przy przejsciu prawym "+pixel);
                 } else if ((getColor(x+j, y+i)<100) && (pomoc==0)) {
                     pomoc=1;
                     j=1;
-//					System.out.println("sprawdzenie już wszystkich z prawej ");
                 }
 
                 if ((getColor(x-j, y+i)>200) && (pomoc==1)){
                     pixel++;
                     p.add(new IntegerPoint(x-j, y+i));
-//					System.out.println("dodanie przy przejsciu lewym "+pixel);
                 }else if ( (getColor(x-j, y+i)<100) && (pomoc==1) ){
                     pomoc =2;
-//					System.out.println("sprawdzenie już wszystkich z lewej");
                 }
-
-//				System.out.println(" y "+(y+i));
             }
-//			System.out.println("ilosc punktow na poziomie "+p.size());
 
             pomoc2=0;
             for (int k=0; k<p.size();k++){
@@ -90,11 +77,8 @@ public class Test {
                     x = p.get(k).getX();
                 }
             }
-//			System.out.println("ilosc punktow na poziomie nizej "+pomoc2);
-//			System.out.println("x jako ropoczecie kolejnego "+x);
             if (pomoc2==0){
                 czyMaDalejSprawdzac=2;
-//				System.out.println("Nie sprawdza dalej bo nie ma białych niżej ");
             }
         }
 
@@ -108,7 +92,6 @@ public class Test {
     }
 
     public int getColor(int x, int y){
-//		System.out.println(x + " "+ y);
         int gr=0;
         if ((x>(image.getWidth()-1)) || (y>(image.getHeight()-1)) || (x<0) || (y<0))
             gr = colorBlack.getRGB();

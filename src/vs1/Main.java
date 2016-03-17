@@ -1,6 +1,5 @@
 package vs1;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +16,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Main extends JFrame implements ActionListener {
 
@@ -79,7 +77,7 @@ public class Main extends JFrame implements ActionListener {
 
             file = null;
             JFileChooser fc = new JFileChooser();
-            File f = new File("D:/JAVA/Z_image_input");
+            File f = new File("F:/JAVA/workIntelli/IdentifyRubber/Z_image_input");
             fc.setCurrentDirectory(f);
             fc.doLayout();
             int result = fc.showOpenDialog(null);

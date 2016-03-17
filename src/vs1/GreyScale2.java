@@ -34,16 +34,14 @@ public class GreyScale2 {
                 else if (gr<255)
                     gr=255;
 
-
                 Color newColor = new Color(gr,gr,gr,a);
                 image.setRGB(x, y, newColor.getRGB());
 
-//				System.out.println(gr+" ");
             }
         }
 
         try{
-            File f = new File("D:/JAVA/output2.jpg");
+            File f = new File("F:/JAVA/workIntelli/IdentifyRubber/Z_image_output/output2.jpg");
             ImageIO.write(image, "jpg", f);
 
             System.out.println("Writing complete.");
