@@ -105,7 +105,7 @@ public class Main extends JFrame implements ActionListener {
             panel.repaint();
 
         } else if (e.getSource() == greyScale2){
-            GreyScale2 gr2 = new GreyScale2(imageChange);
+            GreyScale2 gr2 = new GreyScale2(image);
             gr2.edit();
             imageChange = gr2.getImage();
             image = imageChange;

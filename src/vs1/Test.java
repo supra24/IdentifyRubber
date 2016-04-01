@@ -14,22 +14,22 @@ public class Test {
     BufferedImage imageEnd = null;
     ArrayList<IntegerPoint> p ;
     Color colorBlack = new Color(0, 0, 0);
-
+    int width;
+    int height;
 
     public Test(BufferedImage image){
         this.image = image;
+        imageEnd = image;
+        width = image.getWidth();
+        height = image.getHeight();
     }
 
     public void cos(){
-        int width = image.getWidth();
-        int height = image.getHeight();
+
 
         for (int y=0; y<height; y++){
             for (int x = 0; x<width; x++){
-                if (getColor(x, y)>=200){
                     Arrangement(x, y);
-
-                }
             }
         }
 
@@ -42,53 +42,100 @@ public class Test {
         }
     }
 
-    public int Arrangement (int x, int y){
+    public void Arrangement (int x, int y){
 
-        int pixel=1;
-        int i=0, j=0;
-        int pomoc=0, pomoc2=0;
-        int czyMaDalejSprawdzac=1;
+        if (getColor(x,y) != 0){
 
-
-        for (i=0; czyMaDalejSprawdzac<2 ;i++){
-            pomoc = 0;
+            int XInception = x;
+            int YInception = y;
             p = new ArrayList<>();
-            for (j=0; pomoc<2 ;j++){
-                if ((getColor(x+j, y+i)>200) && (pomoc==0)){
-                    p.add(new IntegerPoint(x+j, y+i));
-                    pixel++;
-                } else if ((getColor(x+j, y+i)<100) && (pomoc==0)) {
-                    pomoc=1;
-                    j=1;
+
+            for (int c=0;; c++){ // pętla zewnętrzna, sprawdzanie niżej
+                int right=0;
+                int left=0;
+
+                for (right=0;; right++){ // pętla do sprawdzania po prawej stonie
+                    if ((XInception+right < width) && (YInception+c < height)){
+                        if (getColor(XInception+right, YInception+c) !=0){
+                            p.add(new IntegerPoint(XInception+right,YInception+c));
+                        } else {
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                for (left=0;; left++){ // pętla do sprawdzania po lewej stonie
+                    if ((XInception-left >0) && (YInception+c < height)) {
+                        if (getColor(XInception - left, YInception+c) != 0) {
+                            p.add(new IntegerPoint(XInception + -left, YInception+c));
+                        } else {
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
                 }
 
-                if ((getColor(x-j, y+i)>200) && (pomoc==1)){
-                    pixel++;
-                    p.add(new IntegerPoint(x-j, y+i));
-                }else if ( (getColor(x-j, y+i)<100) && (pomoc==1) ){
-                    pomoc =2;
+                boolean edit= true;
+
+                if (YInception+1 <height){
+                    if (getColor(XInception, YInception+1) != 0){
+                        YInception = YInception+1;
+                        edit =false;
+                    }
+                }
+
+                if (edit == true) {
+                    for (int Xaxis = 0; Xaxis < right; Xaxis++) { // pętla do sprawdzania czy niżej jest jeszcze kawałek gumy po prawej stronie
+                        if (YInception + 1 < height) {
+                            if (getColor(XInception + Xaxis, YInception + 1) != 0) {
+                                XInception = XInception+Xaxis;
+                                YInception = YInception+1;
+                                edit = false;
+                                break;
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                }
+
+                if (edit == true) {
+                    for (int Xaxis=0; Xaxis < left  ; Xaxis++ ) { // pętla do sprawdzania czy niżej jest jeszcze kawałęk gumy po lewej stronie
+                        if (YInception+1 < height){
+                            if (getColor(XInception-Xaxis, YInception+1) !=0 ){
+                                XInception = XInception+Xaxis;
+                                YInception = YInception+1;
+                                edit = false;
+                                break;
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                }
+
+                if (edit == true){
+                    break;
+                }
+
+            }
+
+            // edycja zdjecia po analizie
+            if (p.size() <=7){
+                for (int i=0; i<p.size(); i++){
+                    image.setRGB(p.get(i).getX(), p.get(i).getY(), 0);
+                    imageEnd.setRGB(p.get(i).getX(), p.get(i).getY(), 0);
+                }
+            } else {
+                for (int i=0; i<p.size(); i++){
+                    image.setRGB(p.get(i).getX(), p.get(i).getY(), 255);
+                    imageEnd.setRGB(p.get(i).getX(), p.get(i).getY(), 255);
                 }
             }
 
-            pomoc2=0;
-            for (int k=0; k<p.size();k++){
-                if (getColor(p.get(k).getX(), p.get(k).getY()+1)>250){
-                    pomoc2++;
-                    x = p.get(k).getX();
-                }
-            }
-            if (pomoc2==0){
-                czyMaDalejSprawdzac=2;
-            }
         }
-
-        if (p.size()<7){
-            for(int k=0; k<p.size(); k++){
-                image.setRGB(p.get(k).getX(), p.get(k).getY(), colorBlack.getRGB());
-            }
-        }
-
-        return pixel;
     }
 
     public int getColor(int x, int y){
